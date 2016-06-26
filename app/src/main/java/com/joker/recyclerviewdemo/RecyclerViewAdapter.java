@@ -18,6 +18,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private Context mContext;
     private List<String> mDatas;
 
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+
+        void onItemLongClick(View view, int position);
+    }
+
+    private OnItemClickListener mListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     public RecyclerViewAdapter(Context context, List<String> datas) {
         this.mContext = context;
         this.mDatas = datas;
@@ -40,23 +52,43 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.mTextView.setText(mDatas.get(position));
+        if (mListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    mListener.onItemClick(holder.itemView, position);
+                }
+            });
+
+            // longclick
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mListener.onItemLongClick(holder.itemView, position);
+                    return false;
+                }
+            });
+        }
+
     }
 
-    public void addData(int position){
+    public void addData(int position) {
         mDatas.add(position, "Insert One");
         notifyItemInserted(position);
     }
 
-    public void deleteData(int position){
+    public void deleteData(int position) {
         mDatas.remove(position);
         notifyItemRemoved(position);
     }
 
 
 }
-class  MyViewHolder extends RecyclerView.ViewHolder{
+
+class MyViewHolder extends RecyclerView.ViewHolder {
 
     TextView mTextView;
 
