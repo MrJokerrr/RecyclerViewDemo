@@ -44,6 +44,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.mTextView.setText(mDatas.get(position));
     }
 
+    public void addData(int position){
+        mDatas.add(position, "Insert One");
+        notifyItemInserted(position);
+    }
+
+    public void deleteData(int position){
+        mDatas.remove(position);
+        notifyItemRemoved(position);
+    }
+
 
 }
 class  MyViewHolder extends RecyclerView.ViewHolder{

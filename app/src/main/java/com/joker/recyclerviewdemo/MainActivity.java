@@ -2,6 +2,7 @@ package com.joker.recyclerviewdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-       // mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-
+        // 给recyclerView添加分割线
+        // mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        // 给RecyclerView设置添加删除动画
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void initView() {
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
+            case R.id.action_add:
+                mAdapter.addData(1);
+                break;
+            case R.id.action_delete:
+                mAdapter.deleteData(1);
+                break;
             case R.id.action_listview:
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 break;
